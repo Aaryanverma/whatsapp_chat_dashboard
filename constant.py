@@ -177,4 +177,4 @@ DEFAULT_SERVICE_URLS = ('translate.google.ac','translate.google.ad','translate.g
                         'translate.google.tk','translate.google.tl','translate.google.tm',
                         'translate.google.tn','translate.google.to','translate.google.tt',
                         'translate.google.us','translate.google.vg','translate.google.vu','translate.google.ws')
-{"mode":"full","isActive":false}
+{"mode":"full","isActive":False}
