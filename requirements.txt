@@ -2,4 +2,4 @@ emoji
 wordcloud
 vaderSentiment
 plotly
--e git+https://github.com/Aaryanverma/google_trans_new.git@main
+-e git+https://github.com/Aaryanverma/google_trans_new.git@main#egg=google_trans_new
