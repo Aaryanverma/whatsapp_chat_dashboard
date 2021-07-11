@@ -2,3 +2,4 @@ emoji
 google_trans_new
 wordcloud
 vaderSentiment
+plotly
