@@ -7,7 +7,7 @@ import io
 from collections import Counter
 from datetime import datetime
 import plotly.express as px
-from google_trans_new-main.google_trans_new import google_translator
+from google_trans_new import google_translator
 from multiprocessing.dummy import Pool as ThreadPool
 from wordcloud import WordCloud, STOPWORDS
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
