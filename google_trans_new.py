@@ -249,4 +249,4 @@ class google_translator:
             # Request failed
             log.debug(str(e))
             raise google_new_transError(tts=self)
-{"mode":"full","isActive":false}
+{"mode":"full","isActive":False}
