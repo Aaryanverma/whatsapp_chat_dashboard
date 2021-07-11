@@ -3,3 +3,4 @@ google_trans_new
 wordcloud
 vaderSentiment
 plotly
+git+git://github.com/Aaryanverma/google_trans_new
