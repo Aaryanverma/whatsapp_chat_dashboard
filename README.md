@@ -1,3 +1,8 @@
-# whatsapp_chat_dashboard
+# WhatsApp Chat Dashboard
+Analyzes your WhatsApp Chats (Personal or Group) and give some useful insights including Sentimental Analysis.
 
-Acknowledgments: Thanks ![lushan88a](https://github.com/lushan88a) for the amazing library: ![google_trans_new](https://github.com/lushan88a/google_trans_new)
+Try Demo here: https://bit.ly/3xAttVN
+
+Repo Developed and Maintained by [Aaryan Verma](www.github.com/Aaryanverma)
+
+P.S.: This project is not associated with WhatsApp in any manner.
