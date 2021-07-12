@@ -105,7 +105,7 @@ if chat_content!=[]:
     df=list_to_DF(chat_content)
     df=data_preperation(df)
 
-    st.subheader("Group Wise Stats")
+    st.subheader("Chat Stats")
     st.write("\n")
     st.write("Total Text Messages: ", df.shape[0])
     st.write("Total Media Messages: ", df[df['Media']].shape[0])
