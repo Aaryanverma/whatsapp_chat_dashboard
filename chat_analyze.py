@@ -4,6 +4,7 @@ import numpy as np
 import re
 import emoji
 import io
+import time
 from collections import Counter
 from datetime import datetime
 import plotly.express as px
@@ -54,6 +55,7 @@ if chat_file != None:
 def translate_request(text):
     try:
         translate_text = translator.translate(text.strip().lower(), lang_tgt='en')
+        time.sleep(0.5)
         translate_text = " ".join(word for word in translate_text if word not in stopwords)
     except:
         st.error("Too many requests for Sentiment Analyzer. Pls, Try again after some time.")
