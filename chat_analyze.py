@@ -53,13 +53,13 @@ if chat_file != None:
     chat_content = raw_text.readlines()
 
 def translate_request(text):
-    try:
-        time.sleep(0.5)
-        translate_text = translator.translate(text.strip().lower(), lang_tgt='en')
-        translate_text = " ".join(word for word in translate_text if word not in stopwords)
-        return translate_text
-    except:
-        st.error("Too many requests for Sentiment Analyzer. Pls, Try again after some time.")
+    # try:
+        # time.sleep(0.5)
+    translate_text = translator.translate(text.strip().lower(), lang_tgt='en')
+    translate_text = " ".join(word for word in translate_text if word not in stopwords)
+    return translate_text
+    # except:
+    #     st.error("Too many requests for Sentiment Analyzer. Pls, Try again after some time.")
 
 
 def list_to_DF(_list,f=0):
@@ -181,16 +181,16 @@ if chat_content!=[]:
 
     senti = []
     with st.spinner(f'Analyzing Sentiment for {senders}.. (This may take some time depending on number of messages)'):
-        try:
-            translation = pool.map(translate_request, dummy_df["message"].values)
-        except Exception as e:
-            raise e
-        pool.close()
-        pool.join()
+        # try:
+        #     translation = pool.map(translate_request, dummy_df["message"].values)
+        # except Exception as e:
+        #     raise e
+        # pool.close()
+        # pool.join()
         
-
-        for i in translation:
-            sentiment_dict = sid_obj.polarity_scores(i)
+        for i in dummy_df["message"].values:
+            translation = translate_request(i)
+            sentiment_dict = sid_obj.polarity_scores(translation)
             if sentiment_dict['compound'] >= 0.05 :
                 senti.append("Positive")
             elif sentiment_dict['compound'] <= - 0.05 :
