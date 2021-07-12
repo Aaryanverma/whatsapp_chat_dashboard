@@ -57,9 +57,9 @@ def translate_request(text):
         translate_text = translator.translate(text.strip().lower(), lang_tgt='en')
         time.sleep(0.5)
         translate_text = " ".join(word for word in translate_text if word not in stopwords)
+        return translate_text
     except:
         st.error("Too many requests for Sentiment Analyzer. Pls, Try again after some time.")
-    return translate_text
 
 
 def list_to_DF(_list,f=0):
