@@ -20,6 +20,7 @@ st.set_page_config(
 
 hide_streamlit_style = """
             <style>
+            #MainMenu {visibility: hidden;}
             footer {visibility: hidden;}
             </style>
             """
@@ -30,6 +31,7 @@ st.markdown('<small>Made with ♥ in India. © <b>Aaryan Verma</b></small>',unsa
 translator = google_translator()
 sid_obj = SentimentIntensityAnalyzer()
 pool = ThreadPool(8)
+stopwords = set(STOPWORDS)
 
 with st.beta_expander("How to export your Conversation"):
     st.write("""To export a copy of the history of an individual chat or group:
@@ -48,7 +50,8 @@ if chat_file != None:
     chat_content = raw_text.readlines()
 
 def translate_request(text):
-    translate_text = translator.translate(text.strip(), lang_tgt='en')
+    translate_text = translator.translate(text.strip().lower(), lang_tgt='en')
+    translate_text = " ".join(word for word in translate_text if word not in stopwords)
     return translate_text
 
 
@@ -146,7 +149,6 @@ if chat_content!=[]:
 
     
     comment_words = ''
-    stopwords = set(STOPWORDS)
 
     for val in dummy_df.message:
         # typecaste each val to string
@@ -178,6 +180,7 @@ if chat_content!=[]:
             raise e
         pool.close()
         pool.join()
+        
 
         for i in translation:
             sentiment_dict = sid_obj.polarity_scores(i)
