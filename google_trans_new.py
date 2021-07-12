@@ -87,7 +87,7 @@ class google_translator:
 
     '''
 
-    def __init__(self, url_suffix="cn", timeout=5, proxies=None):
+    def __init__(self, url_suffix="en", timeout=5, proxies=None):
         self.proxies = proxies
         if url_suffix not in URLS_SUFFIX:
             self.url_suffix = URL_SUFFIX_DEFAULT
