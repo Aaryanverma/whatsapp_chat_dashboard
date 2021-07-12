@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import re
 import emoji
+from httpcore import SyncHTTPProxy
 import io
 from collections import Counter
 from datetime import datetime
@@ -28,7 +29,11 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 st.title("WhatsApp Chat Dashboard")
 st.markdown('<small>Made with ♥ in India. © <b>Aaryan Verma</b></small>',unsafe_allow_html=True)
-translator = google_translator()
+try:
+    translator = google_translator()
+except:
+    st.error("Too many requests for Sentiment Analyzer. Pls, Try again after some time.")
+
 sid_obj = SentimentIntensityAnalyzer()
 pool = ThreadPool(8)
 stopwords = set(STOPWORDS)
@@ -165,7 +170,7 @@ if chat_content!=[]:
                 stopwords = stopwords,min_font_size=6).generate(comment_words)
     
     # plot the WordCloud image
-    with st.beta_expander("View Wordcloud"):       
+    with st.beta_expander("Tap to View Wordcloud"):       
         fig, ax = plt.subplots(figsize = (10, 10),facecolor = 'k')
         ax.imshow(wordcloud,interpolation='bilinear')
         ax.axis("off")
@@ -192,7 +197,7 @@ if chat_content!=[]:
                 senti.append("Neutral")
     
     all_sents = Counter(senti)
-    fig6 = px.bar(y=all_sents.values(), x=all_sents.keys(), title=f"Sentiments for {senders}")
+    fig6 = px.bar(y=all_sents.values(), x=all_sents.keys(), labels={'x':'Sentiment','y':'Messages'},title=f"Sentiments for {senders}")
     st.plotly_chart(fig6)
     result = max(all_sents,key=all_sents.get)
     st.info(f"{senders} mostly sends {result} messages")
