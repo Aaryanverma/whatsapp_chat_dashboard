@@ -43,7 +43,7 @@ with st.beta_expander("How to export your Conversation"):
   \n4. Choose Without Media.
   \n5. You will asked how to save your chat history attached as a .txt document.  \nSave it wherever you like. Then download the .txt file and upload it below.""")
 
-chat_file = st.file_uploader("Upload chat file (Don't worry your data is safe. Analysis is done in your browser only and won't be uploaded anywhere.)", type=["txt"])
+chat_file = st.file_uploader("Upload chat file (Don't worry your data is safe. Analysis is done in your browser only.)", type=["txt"])
 
 chat_content = []
 
