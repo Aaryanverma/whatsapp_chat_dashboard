@@ -28,10 +28,8 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 st.title("WhatsApp Chat Dashboard")
 st.markdown('<small>Made with ♥ in India. © <b>Aaryan Verma</b></small>',unsafe_allow_html=True)
-try:
-    translator = google_translator()
-except:
-    st.error("Too many requests for Sentiment Analyzer. Pls, Try again after some time.")
+
+translator = google_translator()
 
 sid_obj = SentimentIntensityAnalyzer()
 pool = ThreadPool(8)
@@ -54,8 +52,11 @@ if chat_file != None:
     chat_content = raw_text.readlines()
 
 def translate_request(text):
-    translate_text = translator.translate(text.strip().lower(), lang_tgt='en')
-    translate_text = " ".join(word for word in translate_text if word not in stopwords)
+    try:
+        translate_text = translator.translate(text.strip().lower(), lang_tgt='en')
+        translate_text = " ".join(word for word in translate_text if word not in stopwords)
+    except:
+        st.error("Too many requests for Sentiment Analyzer. Pls, Try again after some time.")
     return translate_text
 
 
