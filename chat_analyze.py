@@ -59,26 +59,26 @@ def translate_request(text):
 
 
 
-def list_to_DF(_list,f=0):
+def list_to_DF(list,format=0):
 
-    d_t_format=['%d/%m/%Y, %I:%M %p','%d/%m/%y, %I:%M %p','%m/%d/%y, %I:%M %p']
+    date_format=['%d/%m/%Y, %I:%M %p','%d/%m/%y, %I:%M %p','%m/%d/%y, %I:%M %p']
     date=re.compile('\d{1,2}/\d{1,2}/\d{2,4}')
 
     df=pd.DataFrame(columns=['date_time','author','message'])
-    for chat in _list:
+    for chat in list:
         if date.match(chat):
-            datetym,conversation=re.split('-',chat,maxsplit=1)
+            dat_time,conversation=re.split('-',chat,maxsplit=1)
             try:
                 aut,msg=re.split(':',conversation,maxsplit=1)
             except ValueError:
                 aut=np.nan
                 msg=str.strip(conversation)
-            d=str.strip(datetym)
+            d=str.strip(dat_time)
             try:
-                d_t=datetime.strptime(str.strip(datetym),d_t_format[f])
+                dt=datetime.strptime(str.strip(dat_time),date_format[format])
             except ValueError:
-                return list_to_DF(_list,f+1)
-            df=df.append({'date_time':d_t,'author':aut,'message':str.strip(msg)},ignore_index=True)
+                return list_to_DF(list,format+1)
+            df=df.append({'date_time':dt,'author':aut,'message':str.strip(msg)},ignore_index=True)
         else:
             df.iloc[-1].message=df.iloc[-1].message+' '+chat
 
@@ -86,23 +86,19 @@ def list_to_DF(_list,f=0):
 
 def data_preperation(df):
 
-    y = lambda x:x.year
-    emg_extrct = lambda x:''.join(re.findall(emoji.get_emoji_regexp(),x))
-    count_w = lambda x:len(x.split())
-    count_emoji = lambda x:len(list(x))
-    URLPATTERN = r'(https?://\S+)'
+    year = lambda x:x.year
+    emoji_extract = lambda x:''.join(re.findall(emoji.get_emoji_regexp(),x))
+    url_pattern = r'(https?://\S+)'
 
     df.dropna(inplace=True)
     df['date'] = df['date_time'].apply(pd.Timestamp.date)
     df['day'] = df['date_time'].apply(pd.Timestamp.day_name)
     df['month'] = df['date_time'].apply(pd.Timestamp.month_name)
-    df['year'] = df['date_time'].apply(y)    #(pd.Timestamp.year)
+    df['year'] = df['date_time'].apply(year)
     df['time'] = df['date_time'].apply(pd.Timestamp.time).apply(lambda x: datetime.strptime(str(x), "%H:%M:%S")).apply(lambda x: x.strftime("%I:%M %p"))
-    df['emoji_used'] = df.message.apply(emg_extrct)
-    df['word_count'] = df.message.apply(count_w)
-    df['emoji_count'] = df.emoji_used.apply(count_emoji)
+    df['emoji_used'] = df.message.apply(emoji_extract)
     df['Media'] = df.message.str.contains('<Media omitted>')
-    df['urlcount'] = df.message.apply(lambda x: re.findall(URLPATTERN, x)).str.len()
+    df['urlcount'] = df.message.apply(lambda x: re.findall(url_pattern, x)).str.len()
     return df
 
 if chat_content!=[]:
