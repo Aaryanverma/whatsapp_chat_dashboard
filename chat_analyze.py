@@ -4,15 +4,14 @@ import numpy as np
 import re
 import emoji
 import io
-import time
 from collections import Counter
 from datetime import datetime
 import plotly.express as px
-from google_trans_new import google_translator
 from multiprocessing.dummy import Pool as ThreadPool
 from wordcloud import WordCloud, STOPWORDS
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 import matplotlib.pyplot as plt
+from deep_translator import GoogleTranslator
 
 st.set_page_config(
     page_title="WhatsApp Chat Dashboard",
@@ -30,7 +29,7 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 st.title("WhatsApp Chat Dashboard")
 st.markdown('<small>Made with ♥ in India. © <b>Aaryan Verma</b></small>',unsafe_allow_html=True)
 
-translator = google_translator()
+# translator = GoogleTranslator(source='auto', target='en')
 
 sid_obj = SentimentIntensityAnalyzer()
 pool = ThreadPool(8)
@@ -53,13 +52,11 @@ if chat_file != None:
     chat_content = raw_text.readlines()
 
 def translate_request(text):
-    # try:
-        # time.sleep(0.5)
-    translate_text = translator.translate(text.strip().lower(), lang_tgt='en')
-    translate_text = " ".join(word for word in translate_text if word not in stopwords)
-    return translate_text
-    # except:
-    #     st.error("Too many requests for Sentiment Analyzer. Pls, Try again after some time.")
+        translate_text = GoogleTranslator(target='en').translate(text.strip().lower())
+        if translate_text != None:
+            translate_text = " ".join(word for word in translate_text.split(" ") if word not in stopwords)
+        return translate_text
+
 
 
 def list_to_DF(_list,f=0):
@@ -181,23 +178,23 @@ if chat_content!=[]:
 
     senti = []
     with st.spinner(f'Analyzing Sentiment for {senders}.. (This may take some time depending on number of messages)'):
-        # try:
-        #     translation = pool.map(translate_request, dummy_df["message"].values)
-        # except Exception as e:
-        #     raise e
-        # pool.close()
-        # pool.join()
-        
-        for i in dummy_df["message"].values:
-            time.sleep(1)
-            translation = translate_request(i)
-            sentiment_dict = sid_obj.polarity_scores(translation)
-            if sentiment_dict['compound'] >= 0.05 :
-                senti.append("Positive")
-            elif sentiment_dict['compound'] <= - 0.05 :
-                senti.append("Negative")
-            else :
-                senti.append("Neutral")
+        try:
+            translation = pool.map(translate_request, dummy_df["message"].values)
+        except Exception as e:
+            raise e
+        pool.close()
+        pool.join()
+
+        for i in translation:
+            if i!=None:
+                sentiment_dict = sid_obj.polarity_scores(i)
+
+                if sentiment_dict['compound'] >= 0.05 :
+                    senti.append("Positive")
+                elif sentiment_dict['compound'] <= - 0.05 :
+                    senti.append("Negative")
+                else :
+                    senti.append("Neutral")
     
     all_sents = Counter(senti)
     fig6 = px.bar(y=all_sents.values(), x=all_sents.keys(), labels={'x':'Sentiment','y':'Messages'},title=f"Sentiments for {senders}")
