@@ -13,7 +13,7 @@ log.addHandler(logging.NullHandler())
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 URLS_SUFFIX = [re.search('translate.google.(.*)', url.strip()).group(1) for url in DEFAULT_SERVICE_URLS]
-URL_SUFFIX_DEFAULT = 'cn'
+URL_SUFFIX_DEFAULT = 'en'
 
 
 class google_new_transError(Exception):
