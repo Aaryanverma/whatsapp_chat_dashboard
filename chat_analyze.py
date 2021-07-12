@@ -30,7 +30,7 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 st.title("WhatsApp Chat Dashboard")
 st.markdown('<small>Made with ♥ in India. © <b>Aaryan Verma</b></small>',unsafe_allow_html=True)
 
-translator = google_translator()
+translator = google_translator(timeout=10)
 
 sid_obj = SentimentIntensityAnalyzer()
 pool = ThreadPool(8)
