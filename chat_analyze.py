@@ -3,7 +3,6 @@ import pandas as pd
 import numpy as np
 import re
 import emoji
-from httpcore import SyncHTTPProxy
 import io
 from collections import Counter
 from datetime import datetime
