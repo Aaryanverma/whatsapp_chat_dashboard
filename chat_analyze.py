@@ -54,8 +54,8 @@ if chat_file != None:
 
 def translate_request(text):
     try:
-        translate_text = translator.translate(text.strip().lower(), lang_tgt='en')
         time.sleep(0.5)
+        translate_text = translator.translate(text.strip().lower(), lang_tgt='en')
         translate_text = " ".join(word for word in translate_text if word not in stopwords)
         return translate_text
     except:
