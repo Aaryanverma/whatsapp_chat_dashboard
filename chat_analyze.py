@@ -30,7 +30,7 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 st.title("WhatsApp Chat Dashboard")
 st.markdown('<small>Made with ♥ in India. © <b>Aaryan Verma</b></small>',unsafe_allow_html=True)
 
-translator = google_translator(timeout=10)
+translator = google_translator()
 
 sid_obj = SentimentIntensityAnalyzer()
 pool = ThreadPool(8)
@@ -189,7 +189,6 @@ if chat_content!=[]:
         # pool.join()
         
         for i in dummy_df["message"].values:
-            time.sleep(1)
             translation = translate_request(i)
             sentiment_dict = sid_obj.polarity_scores(translation)
             if sentiment_dict['compound'] >= 0.05 :
