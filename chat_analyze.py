@@ -76,7 +76,7 @@ def list_to_DF(list,format=0):
             d=str.strip(dat_time)
             try:
                 dt=datetime.strptime(str.strip(dat_time),date_format[format])
-            except:
+            except ValueError:
                 return list_to_DF(list,format+1)
             df=df.append({'date_time':dt,'author':aut,'message':str.strip(msg)},ignore_index=True)
         else:
