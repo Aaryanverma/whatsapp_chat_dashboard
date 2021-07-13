@@ -67,7 +67,7 @@ def list_to_DF(list,format=0):
     df=pd.DataFrame(columns=['date_time','author','message'])
     for chat in list:
         if date.match(chat):
-            dat_time,conversation=re.split('-',chat,maxsplit=1)
+            dat_time,conversation=re.split(' - ',chat,maxsplit=1)
             try:
                 aut,msg=re.split(':',conversation,maxsplit=1)
             except ValueError:
